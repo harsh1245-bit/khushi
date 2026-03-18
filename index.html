@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Khushi 🌙</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #e6ecff, #ffffff);
+  text-align: center;
+  color: #333;
+}
+
+.container {
+  padding: 40px 20px;
+}
+
+h1 {
+  font-size: 2.2em;
+}
+
+.section {
+  margin-top: 60px;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  margin: 20px auto;
+  border-radius: 15px;
+  max-width: 600px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+button {
+  padding: 12px 20px;
+  background: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+.fade {
+  animation: fadeIn 2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>For your tiring days, Khushi 🌙</h1>
+  <p>Just breathe… you did enough today.</p>
+
+  <div class="section card">
+    <h2>💌 Read this when you feel low</h2>
+    <p id="letter"></p>
+    <button onclick="showLetter()">Open Letter</button>
+  </div>
+
+  <div class="section card">
+    <h2>✨ A Core Memory</h2>
+    <p>
+      Gurgaon. IFC Social.  
+      Grenade gin & tonic.  
+      And me thinking—  
+      “this is one super cute human” 😄
+    </p>
+  </div>
+
+  <div class="section card">
+    <h2>🎨 Random Thought</h2>
+    <p>
+      Some days feel like Bangalore traffic…  
+      but you? You’re like Bangalore cherry blossoms 🌸  
+      —unexpected and calming.
+    </p>
+  </div>
+
+  <div class="section card">
+    <h2>🎮 Tiny Game (Stress Relief)</h2>
+    <p>Click the button as fast as you can!</p>
+    <button onclick="increaseScore()">Click Me</button>
+    <p>Score: <span id="score">0</span></p>
+  </div>
+
+  <div class="section card">
+    <h2>🎧 Relax Zone</h2>
+    <p>Play this, lie down, and forget the world for a bit…</p>
+    <iframe width="100%" height="200"
+      src="https://www.youtube.com/embed/jfKfPfyJRdk"
+      frameborder="0" allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="section card">
+    <h2>🌙 End Your Day</h2>
+    <button onclick="endDay()">End My Day</button>
+    <p id="endMessage" class="fade"></p>
+  </div>
+
+</div>
+
+<script>
+let score = 0;
+
+function increaseScore() {
+  score++;
+  document.getElementById("score").innerText = score;
+}
+
+function showLetter() {
+  const text = `To happiness,
+
+Words do feel very small when you are trying to write for your happiness.
+For me, happiness is Khushi—and that is you.
+
+If I try to explain the chemical reactions in my brain,
+I’d say our conversations feel like a mixture of every positive experience I’ve ever had.
+
+Sometimes, it’s as soothing as sitting at ghats at 2 AM,
+just absorbing silence.
+
+Sometimes, it’s as joyful as the day India lifted the 2011 World Cup.
+
+Sometimes, it’s like tapri chai wala sukoon.
+
+And sometimes… it’s just you being you.
+
+Your texts feel like a reset button for my mood—
+a proper factory reset for my overthinking brain.
+
+Just like Bangalore randomly blooming with cherry blossoms :P
+
+This isn’t to overwhelm you,
+just to make you smile a little.
+
+P.S. You are coooooolll (Mikesh cool 😄)`;
+
+  let i = 0;
+  let speed = 30;
+  let output = "";
+
+  function typeWriter() {
+    if (i < text.length) {
+      output += text.charAt(i);
+      document.getElementById("letter").innerText = output;
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+  }
+
+  typeWriter();
+}
+
+function endDay() {
+  document.getElementById("endMessage").innerText =
+    "You did enough today. I'm proud of you. Sleep peacefully 🌙";
+}
+</script>
+
+</body>
+</html>
