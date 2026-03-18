@@ -57,23 +57,13 @@ button {
   opacity: 1;
 }
 
-/* Memory Game */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.card-game {
-  height: 60px;
-  background: #dfe3eb;
-  border-radius: 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
+/* Zen Canvas */
+#zenCanvas {
+  width: 100%;
+  height: 300px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #f5f7fb, #e8ecf5);
+  cursor: crosshair;
 }
 </style>
 </head>
@@ -95,9 +85,11 @@ button {
   <!-- Memory -->
   <div class="card">
     <p>
-      Our core memory does not have any pictures but I guess all those conversations are still stuck inside my mind which I will never forget
+      Our core memory does not have any pictures but I guess all those conversations are still stuck inside my mind which I will never forget.
+      <br><br>
       Cheers to Gurgaon. IFC Social.  
-      and to That grenade gin & tonic.  
+      and to that grenade gin & tonic.  
+      <br><br>
       ps: you’re a very cute human.
     </p>
   </div>
@@ -105,20 +97,24 @@ button {
   <!-- Subtle Thought -->
   <div class="card">
     <p>
-      Some days just feel like Bangalore traffic, but you are like cherry blossoms.
+      Some days just feel like Bangalore traffic,  
+      but you are like cherry blossoms.
     </p>
   </div>
 
-  <!-- Better Game -->
+  <!-- Zen Game -->
   <div class="card">
-    <p>Quick reset — match the pairs</p>
-    <div class="grid" id="game"></div>
+    <p>Take a minute. Just move your finger.</p>
+    <canvas id="zenCanvas"></canvas>
   </div>
 
   <!-- Music -->
   <div class="card">
     <p>See this is my current favourite song, you can listen to it if you want.</p>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/LV_wiOhO40Q?si=5pSuKwcGpAbfRTau" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe width="100%" height="200" 
+      src="https://www.youtube.com/embed/LV_wiOhO40Q"
+      frameborder="0" allowfullscreen>
+    </iframe>
   </div>
 
   <!-- End -->
@@ -152,43 +148,72 @@ Just thought it might make you smile a little.`;
 // End Day
 function endDay() {
   const el = document.getElementById("end");
-  el.innerText = "Thanks for bearing the day and this annoying person";
+  el.innerText = "You handled today well. Get some rest.";
   el.classList.add("show");
 }
 
-// Memory Game
-const emojis = ["🌙","🌸","🍵","✨","🌙","🌸","🍵","✨"];
-let shuffled = emojis.sort(() => 0.5 - Math.random());
-let selected = [];
-let matched = [];
+// Zen Drawing Game
+const canvas = document.getElementById("zenCanvas");
+const ctx = canvas.getContext("2d");
 
-const game = document.getElementById("game");
+function resizeCanvas() {
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+}
 
-shuffled.forEach((emoji, index) => {
-  const div = document.createElement("div");
-  div.className = "card-game";
-  div.dataset.value = emoji;
-  div.onclick = () => flip(div, index);
-  game.appendChild(div);
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+let drawing = false;
+
+canvas.addEventListener("mousedown", () => drawing = true);
+canvas.addEventListener("mouseup", () => {
+  drawing = false;
+  ctx.beginPath();
 });
+canvas.addEventListener("mouseleave", () => drawing = false);
 
-function flip(card, index) {
-  if (matched.includes(index) || selected.length === 2) return;
+canvas.addEventListener("mousemove", draw);
 
-  card.innerText = card.dataset.value;
-  selected.push({index, value: card.dataset.value, el: card});
+canvas.addEventListener("touchstart", () => drawing = true);
+canvas.addEventListener("touchend", () => {
+  drawing = false;
+  ctx.beginPath();
+});
+canvas.addEventListener("touchmove", drawTouch);
 
-  if (selected.length === 2) {
-    if (selected[0].value === selected[1].value) {
-      matched.push(selected[0].index, selected[1].index);
-    } else {
-      setTimeout(() => {
-        selected[0].el.innerText = "";
-        selected[1].el.innerText = "";
-      }, 600);
-    }
-    selected = [];
-  }
+function draw(e) {
+  if (!drawing) return;
+
+  ctx.lineWidth = 2;
+  ctx.lineCap = "round";
+  ctx.strokeStyle = "rgba(120, 140, 255, 0.3)";
+
+  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(e.offsetX, e.offsetY);
+}
+
+function drawTouch(e) {
+  e.preventDefault();
+
+  if (!drawing) return;
+
+  const rect = canvas.getBoundingClientRect();
+  const touch = e.touches[0];
+
+  const x = touch.clientX - rect.left;
+  const y = touch.clientY - rect.top;
+
+  ctx.lineWidth = 2;
+  ctx.lineCap = "round";
+  ctx.strokeStyle = "rgba(120, 140, 255, 0.3)";
+
+  ctx.lineTo(x, y);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x, y);
 }
 </script>
 
