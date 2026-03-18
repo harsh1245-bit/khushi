@@ -106,6 +106,8 @@ button {
   <div class="card">
     <p>Take a minute. Just move your finger.</p>
     <canvas id="zenCanvas"></canvas>
+    <br>
+  <button onclick="resetCanvas()">Reset</button>
   </div>
 
   <!-- Music -->
@@ -152,6 +154,9 @@ function endDay() {
   el.classList.add("show");
 }
 
+function resetCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
 // Zen Drawing Game
 const canvas = document.getElementById("zenCanvas");
 const ctx = canvas.getContext("2d");
@@ -160,6 +165,7 @@ function resizeCanvas() {
   canvas.width = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
 }
+  
 
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
