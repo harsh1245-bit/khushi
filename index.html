@@ -3,58 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Khushi 🌙</title>
+<title>For Khushi</title>
 
 <style>
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #e6ecff, #ffffff);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #f7f8fc, #eef1f7);
+  color: #222;
   text-align: center;
-  color: #333;
 }
 
 .container {
-  padding: 40px 20px;
+  padding: 60px 20px;
+  max-width: 700px;
+  margin: auto;
 }
 
 h1 {
-  font-size: 2.2em;
+  font-weight: 500;
+  font-size: 28px;
 }
 
-.section {
-  margin-top: 60px;
+p {
+  color: #555;
+  line-height: 1.6;
 }
 
 .card {
   background: white;
-  padding: 25px;
-  margin: 20px auto;
-  border-radius: 15px;
-  max-width: 600px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  padding: 30px;
+  border-radius: 16px;
+  margin-top: 30px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
 }
 
 button {
-  padding: 12px 20px;
-  background: #6c63ff;
-  color: white;
+  margin-top: 15px;
+  padding: 10px 18px;
+  border-radius: 8px;
   border: none;
-  border-radius: 10px;
+  background: #111;
+  color: white;
   cursor: pointer;
 }
 
-.hidden {
-  display: none;
-}
-
 .fade {
-  animation: fadeIn 2s ease-in;
+  opacity: 0;
+  transition: opacity 1s ease;
 }
 
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+.show {
+  opacity: 1;
+}
+
+/* Memory Game */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.card-game {
+  height: 60px;
+  background: #dfe3eb;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
 }
 </style>
 </head>
@@ -63,113 +82,117 @@ button {
 
 <div class="container">
 
-  <h1>For your tiring days, Khushi 🌙</h1>
-  <p>Just breathe… you did enough today.</p>
+  <!-- Header -->
+  <h1>Hey Khushi</h1>
+  <p>Just a small space… for when the day feels a bit too much.</p>
 
-  <div class="section card">
-    <h2>💌 Read this when you feel low</h2>
-    <p id="letter"></p>
-    <button onclick="showLetter()">Open Letter</button>
+  <!-- Letter -->
+  <div class="card">
+    <button onclick="showLetter()">Open this when you feel like</button>
+    <p id="letter" class="fade"></p>
   </div>
 
-  <div class="section card">
-    <h2>✨ A Core Memory</h2>
+  <!-- Memory -->
+  <div class="card">
     <p>
       Gurgaon. IFC Social.  
-      Grenade gin & tonic.  
-      And me thinking—  
-      “this is one super cute human” 😄
+      That grenade gin & tonic.  
+      And a random thought —  
+      you’re a very cute human.
     </p>
   </div>
 
-  <div class="section card">
-    <h2>🎨 Random Thought</h2>
+  <!-- Subtle Thought -->
+  <div class="card">
     <p>
-      Some days feel like Bangalore traffic…  
-      but you? You’re like Bangalore cherry blossoms 🌸  
-      —unexpected and calming.
+      Some days feel long.  
+      But conversations with you…  
+      they don’t feel like effort.
     </p>
   </div>
 
-  <div class="section card">
-    <h2>🎮 Tiny Game (Stress Relief)</h2>
-    <p>Click the button as fast as you can!</p>
-    <button onclick="increaseScore()">Click Me</button>
-    <p>Score: <span id="score">0</span></p>
+  <!-- Better Game -->
+  <div class="card">
+    <p>Quick reset — match the pairs</p>
+    <div class="grid" id="game"></div>
   </div>
 
-  <div class="section card">
-    <h2>🎧 Relax Zone</h2>
-    <p>Play this, lie down, and forget the world for a bit…</p>
+  <!-- Music -->
+  <div class="card">
+    <p>Play this, do nothing for a bit.</p>
     <iframe width="100%" height="200"
       src="https://www.youtube.com/embed/jfKfPfyJRdk"
-      frameborder="0" allowfullscreen>
-    </iframe>
+      frameborder="0"></iframe>
   </div>
 
-  <div class="section card">
-    <h2>🌙 End Your Day</h2>
-    <button onclick="endDay()">End My Day</button>
-    <p id="endMessage" class="fade"></p>
+  <!-- End -->
+  <div class="card">
+    <button onclick="endDay()">End the day</button>
+    <p id="end" class="fade"></p>
   </div>
 
 </div>
 
 <script>
-let score = 0;
-
-function increaseScore() {
-  score++;
-  document.getElementById("score").innerText = score;
-}
-
+// Letter
 function showLetter() {
-  const text = `To happiness,
+  const el = document.getElementById("letter");
+  el.innerText = `To happiness,
 
-Words do feel very small when you are trying to write for your happiness.
-For me, happiness is Khushi—and that is you.
+For me, happiness is Khushi.
 
-If I try to explain the chemical reactions in my brain,
-I’d say our conversations feel like a mixture of every positive experience I’ve ever had.
+Talking to you feels like a mix of small good moments —
+sometimes calm, sometimes light, sometimes just easy.
 
-Sometimes, it’s as soothing as sitting at ghats at 2 AM,
-just absorbing silence.
+Like sitting quietly somewhere at 2 AM.
+Or like a random chai break that just feels right.
 
-Sometimes, it’s as joyful as the day India lifted the 2011 World Cup.
+You don’t have to read too much into this.
+Just thought it might make you smile a little.`;
 
-Sometimes, it’s like tapri chai wala sukoon.
-
-And sometimes… it’s just you being you.
-
-Your texts feel like a reset button for my mood—
-a proper factory reset for my overthinking brain.
-
-Just like Bangalore randomly blooming with cherry blossoms :P
-
-This isn’t to overwhelm you,
-just to make you smile a little.
-
-P.S. You are coooooolll (Mikesh cool 😄)`;
-
-  let i = 0;
-  let speed = 30;
-  let output = "";
-
-  function typeWriter() {
-    if (i < text.length) {
-      output += text.charAt(i);
-      document.getElementById("letter").innerText = output;
-      i++;
-      setTimeout(typeWriter, speed);
-    }
-  }
-
-  typeWriter();
+  el.classList.add("show");
 }
 
+// End Day
 function endDay() {
-  document.getElementById("endMessage").innerText =
-    "You did enough today. I'm proud of you. Sleep peacefully 🌙";
+  const el = document.getElementById("end");
+  el.innerText = "That was enough for today. Sleep well.";
+  el.classList.add("show");
+}
+
+// Memory Game
+const emojis = ["🌙","🌸","🍵","✨","🌙","🌸","🍵","✨"];
+let shuffled = emojis.sort(() => 0.5 - Math.random());
+let selected = [];
+let matched = [];
+
+const game = document.getElementById("game");
+
+shuffled.forEach((emoji, index) => {
+  const div = document.createElement("div");
+  div.className = "card-game";
+  div.dataset.value = emoji;
+  div.onclick = () => flip(div, index);
+  game.appendChild(div);
+});
+
+function flip(card, index) {
+  if (matched.includes(index) || selected.length === 2) return;
+
+  card.innerText = card.dataset.value;
+  selected.push({index, value: card.dataset.value, el: card});
+
+  if (selected.length === 2) {
+    if (selected[0].value === selected[1].value) {
+      matched.push(selected[0].index, selected[1].index);
+    } else {
+      setTimeout(() => {
+        selected[0].el.innerText = "";
+        selected[1].el.innerText = "";
+      }, 600);
+    }
+    selected = [];
+  }
 }
 </script>
 
